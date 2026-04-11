@@ -1,0 +1,4 @@
+pip install -r requirements.txt
+python run.py                        # full pipeline in one shot
+streamlit run app/dashboard.py       # dashboard
+uvicorn app.main:app --reload        # API
