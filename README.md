@@ -46,6 +46,14 @@ Fees: 0.1% per trade · Slippage: 0.1% · Initial capital: ₹1,00,000
 
 ## Quickstart
 
+## Live Demo
+
+| Service | URL |
+|---|---|
+| Dashboard (Streamlit) | https://volatility-cassifier-simplified.streamlit.app/ |
+| REST API (FastAPI) | https://volatility-cassifier-simplified.up.railway.app/ |
+| API Docs | https://volatility-cassifier-simplified.up.railway.app/docs |
+
 ### 1. Clone and install
 
 ```bash
