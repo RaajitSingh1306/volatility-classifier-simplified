@@ -50,7 +50,7 @@ Fees: 0.1% per trade · Slippage: 0.1% · Initial capital: ₹1,00,000
 
 ```bash
 git clone https://github.com/RaajitSingh1306/volatility-classifier-simplified.git
-cd volatility-regime-classifier
+cd volatility-classifier-simplified
 pip install -r requirements.txt
 ```
 

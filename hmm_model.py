@@ -211,10 +211,16 @@ def shap_explain(
     train_acc = (clf.predict(X) == y).mean()
     logger.info("GBM surrogate train accuracy: %.3f", train_acc)
 
-    explainer = shap.TreeExplainer(clf)
-    shap_values = explainer.shap_values(X)  # list[ndarray], one per class
+    background = shap.sample(X, min(len(X), 100), random_state=42)
+    explain_X = shap.sample(X, min(len(X), 250), random_state=42)
+    explainer = shap.Explainer(
+        clf.predict_proba,
+        background,
+        algorithm="permutation",
+    )
+    shap_values = explainer(explain_X).values  # (samples, features, classes)
 
-    mean_abs = np.mean([np.abs(sv).mean(0) for sv in shap_values], axis=0)
+    mean_abs = np.abs(shap_values).mean(axis=(0, 2))
     importance = pd.Series(mean_abs, index=FEATURE_COLS).sort_values(ascending=False)
     logger.info("\n── SHAP Feature Importance ──\n%s", importance.round(4).to_string())
 
