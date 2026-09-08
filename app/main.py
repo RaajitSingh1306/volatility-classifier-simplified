@@ -22,7 +22,9 @@ from pathlib import Path
 from functools import lru_cache
 
 # Allow imports from project root
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+ROOT_DIR = Path(__file__).resolve().parent.parent
+if str(ROOT_DIR) not in sys.path:
+    sys.path.insert(0, str(ROOT_DIR))
 
 import pandas as pd
 from fastapi import FastAPI, HTTPException, Query
@@ -42,8 +44,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-DATA_PATH = Path("data/labeled_data.csv")
-BACKTEST_PATH = Path("data/backtest_summary.csv")
+DATA_PATH = ROOT_DIR / "data" / "labeled_data.csv"
+BACKTEST_PATH = ROOT_DIR / "data" / "backtest_summary.csv"
 
 
 # ── Data loading ──────────────────────────────────────────────────────────────

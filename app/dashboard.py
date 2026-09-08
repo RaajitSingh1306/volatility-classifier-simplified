@@ -13,7 +13,9 @@ import sys
 from pathlib import Path
 
 # Allow imports from project root when launched from any working directory
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+ROOT_DIR = Path(__file__).resolve().parent.parent
+if str(ROOT_DIR) not in sys.path:
+    sys.path.insert(0, str(ROOT_DIR))
 
 import numpy as np
 import pandas as pd
@@ -34,16 +36,28 @@ REGIME_COLORS: dict[str, str] = {
     "High Vol": "#F44336",
 }
 
-DATA_PATH = Path("data/labeled_data.csv")
+DATA_PATH = ROOT_DIR / "data" / "labeled_data.csv"
 
 
 # ── Data loading ──────────────────────────────────────────────────────────────
 @st.cache_data(show_spinner="Loading data...")
 def load_data() -> pd.DataFrame:
     if not DATA_PATH.exists():
+        st.warning("⚠️ `data/labeled_data.csv` not found. Attempting to generate it now...")
+        try:
+            with st.spinner("Running full pipeline (downloading data, computing features, GARCH, HMM)..."):
+                from run import main as run_pipeline
+                run_pipeline()
+        except Exception as exc:
+            st.error(
+                f"❌ `data/labeled_data.csv` not found and auto-generation failed: {exc}. "
+                "Please run `python run.py` locally and commit `data/labeled_data.csv`."
+            )
+            st.stop()
+    if not DATA_PATH.exists():
         st.error(
             "❌ `data/labeled_data.csv` not found. "
-            "Run `python run.py` to generate it."
+            "Please run `python run.py` to generate it."
         )
         st.stop()
     return pd.read_csv(DATA_PATH, index_col=0, parse_dates=True)

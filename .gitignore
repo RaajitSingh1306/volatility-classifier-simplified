@@ -16,10 +16,10 @@ venv/
 env/
 ENV/
 
-# Data (large files — tracked separately or via DVC)
-data/nifty_ohlcv.csv
-data/labeled_data.csv
-data/backtest_summary.csv
+# Data (uncomment if using DVC or external storage)
+# data/nifty_ohlcv.csv
+# data/labeled_data.csv
+# data/backtest_summary.csv
 
 # Outputs (generated artefacts)
 outputs/
