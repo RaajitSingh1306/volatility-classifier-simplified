@@ -1,5 +1,16 @@
 # Volatility Regime Classifier — Nifty 50 (Simplified)
 
+> [!WARNING]
+> **SUPERSEDED PROJECT (v2 Single-Asset Refactor)**
+> This version is **SUPERSEDED** by the production-grade **[Volatility Intelligence Platform](https://github.com/RaajitSingh1306/volatility-intelligence-platform)** (the final shipped version).
+> While this repository represents the clean, 15-feature GARCH + HMM single-asset pipeline with vectorbt backtesting, the **Volatility Intelligence Platform** expands upon it by introducing:
+> - **Forward-looking XGBoost predictive layer** (predicts tomorrow's regime from today's signals, OOF AUC: 0.7453)
+> - **MLflow experiment tracking** (`mlflow.db`)
+> - **Next.js 14 Web Dashboard** (replacing Streamlit with an institutional UI)
+> - **Docker & multi-service architecture**
+> 
+> For the active production deployment, visit the [Volatility Intelligence Platform repository](https://github.com/RaajitSingh1306/volatility-intelligence-platform).
+
 [![CI Tests](https://img.shields.io/badge/tests-12%2F12%20passed-brightgreen)](#testing)
 [![HMM States](https://img.shields.io/badge/HMM%20States-3%20(Gaussian)-blue)](#how)
 [![GARCH](https://img.shields.io/badge/GARCH(1%2C1)-Annualized%20Vol-orange)](#how)
