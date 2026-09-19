@@ -112,10 +112,27 @@ Annualized volatility    Monotonic state sorting by mean vol
                  ▼
          backtest.py ─── vectorbt regime-switching strategy
                  │
-         ┌───────┴────────┐
-         ▼                ▼
-   Streamlit Dashboard   FastAPI REST API
+          ┌───────┴────────┐
+          ▼                ▼
+    Streamlit Dashboard   FastAPI REST API
 ```
+
+---
+
+## Tech Stack
+
+| Component | Technology | Rationale |
+|---|---|---|
+| **Data Ingestion** | `yfinance` | Free historical daily OHLCV for `^NSEI` with local 7-day disk caching. |
+| **Econometric Modeling** | `arch` (GARCH) | Industry-standard conditional volatility estimation via constant-mean GARCH(1,1). |
+| **Unsupervised Regimes** | `hmmlearn` | 3-state Gaussian Hidden Markov Model for latent state classification without arbitrary thresholds. |
+| **Explainability** | `shap` + `scikit-learn` | Gradient Boosting surrogate model fitted to HMM states enabling fast TreeExplainer Shapley attribution. |
+| **Backtesting Engine** | `vectorbt` | Vectorized event-driven simulation engine with fee and execution lag modeling. |
+| **REST API** | `FastAPI` + `uvicorn` | High-performance asynchronous endpoints (`/current`, `/history`, `/stats`) with OpenAPI documentation. |
+| **Interactive UI** | `streamlit` | Rapid-prototyping dashboard with Plotly regime bands and return distribution charts. |
+| **Unit Testing** | `pytest` | 12 automated test cases verifying feature mathematics, GARCH convergence, and API schemas. |
+
+---
 
 ### Step 1: Data Ingestion (`data.py`)
 
@@ -335,6 +352,23 @@ docker compose up
 |---|---|
 | [Volatility Intelligence Platform](https://github.com/RaajitSingh1306/volatility-intelligence-platform) | Full version: adds XGBoost prediction layer, MLflow tracking, Next.js frontend, `/predict` and `/market-summary` endpoints |
 | [SEBI RAG Bot](https://github.com/RaajitSingh1306/sebi-rag-bot) | Compliance Q&A assistant that consumes the volatility API for real-time market intelligence |
+
+---
+
+## Limitations & Roadmap
+
+> [!NOTE]
+> This project is **superseded** by the [Volatility Intelligence Platform](https://github.com/RaajitSingh1306/volatility-intelligence-platform) (VIP). These limitations and differences are preserved for architectural lineage and benchmark comparison.
+
+### Known Limitations
+- **Retrospective Classification Only**: Identifies current latent states via HMM filtering; does not include a forward-looking predictive probability layer (added via XGBoost in VIP).
+- **Surrogate-Dependent Explainability**: Explains regime states via a Gradient Boosting surrogate model rather than native HMM parameter attribution; surrogate approximation error is unquantified.
+- **No Experiment Tracking**: Hyperparameters and model artifacts are stored locally without an experiment tracking platform (MLflow added in VIP).
+- **Streamlit Prototyping UI**: Dashboard is built in Streamlit rather than a production responsive web frontend (Next.js 14 added in VIP).
+- **Single-Asset Scope**: Restricts modeling to Nifty 50 (`^NSEI`); does not cover Bank Nifty or cross-asset market intelligence.
+
+### Roadmap
+- *Archived*: All primary enhancements—including XGBoost predictive classification, MLflow tracking, Next.js dark-mode dashboard, and multi-step forecast APIs—have been completed in the flagship **Volatility Intelligence Platform**.
 
 ---
 
